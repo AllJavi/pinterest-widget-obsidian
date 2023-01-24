@@ -41,7 +41,7 @@ export default class PinterestWidget extends Plugin {
       try {
         const yaml = Yaml.parse(source);
 
-        if (!yaml.type || !types[yaml.type]) 
+        if (!yaml.type || !types[yaml.type.toLowerCase()]) 
           throw Error("You must specify a valid widget type (pin | board | profile)");
         if (!yaml.url) throw Error("You must specify an url");
 
@@ -62,8 +62,13 @@ export default class PinterestWidget extends Plugin {
           clearData => {
             removeListeners();
             (0, eval)(clearData);
-            if (container.innerHTML.slice(0, 2) === '<a') {}
 
+
+            console.log('b');
+            setTimeout(() => {
+              if (container.innerHTML.slice(0, 2) === '<a') 
+                renderError(`Something goes wrong. Make sure your url it's valid for the ${yaml.type} widget.`, el)
+            }, 1000);
           }
         ).catch(error => renderError(error, el))
 
