@@ -1,3 +1,9 @@
+* {
+  --pinterest-background: var(--background-secondary);
+  --pinterest-button: var(--background-modifier-hover);
+  --pinterest-text: var(--text-normal);
+}
+
 div.pinterest-error {
   padding: 1rem;
   border-radius: 1rem;
@@ -20,20 +26,20 @@ div.pinterest-error pre > code {
 .pinterest-container span[class$="board"], 
 .pinterest-container span[class$="native"], 
 .pinterest-container span[class$="c3"] {
-  background: var(--background-secondary) !important;
-  border-color: var(--background-modifier-hover) !important;
-  color: var(--text-normal) !important;
+  background: var(--pinterest-background) !important;
+  border-color: var(--pinterest-button) !important;
+  color: var(--pinterest-text) !important;
 }
 
 .pinterest-container span[class$="button"] {
-  background: var(--background-modifier-hover) !important;
-  border-color: var(--background-modifier-hover) !important;
+  background: var(--pinterest-button) !important;
+  border-color: var(--pinterest-button) !important;
 }
 
 .pinterest-container span[class$="container"] {
-  background: var(--background-secondary) !important;
+  background: var(--pinterest-background) !important;
 }
 
 .pinterest-container span[class$="string"] {
-  color: var(--text-normal) !important;
+  color: var(--pinterest-text) !important;
 }
