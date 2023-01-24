@@ -1,8 +1,39 @@
-/*
+div.pinterest-error {
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--background-secondary);
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+div.pinterest-error pre {
+  margin: 5px 0 !important;
+}
 
-If your plugin does not need CSS, delete this file.
+div.pinterest-error pre > code {
+  color: crimson !important;
+}
 
-*/
+.pinterest-container {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pinterest-container span[class$="board"], 
+.pinterest-container span[class$="native"], 
+.pinterest-container span[class$="c3"] {
+  background: var(--background-secondary) !important;
+  border-color: var(--background-modifier-hover) !important;
+  color: var(--text-normal) !important;
+}
+
+.pinterest-container span[class$="button"] {
+  background: var(--background-modifier-hover) !important;
+  border-color: var(--background-modifier-hover) !important;
+}
+
+.pinterest-container span[class$="container"] {
+  background: var(--background-secondary) !important;
+}
+
+.pinterest-container span[class$="string"] {
+  color: var(--text-normal) !important;
+}

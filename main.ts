@@ -1,137 +1,76 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { Plugin, MarkdownRenderer } from 'obsidian';
+import * as Yaml from 'yaml';
 
-// Remember to rename these classes and interfaces!
+EventTarget.prototype._addEventListener = EventTarget.prototype.addEventListener;
 
-interface MyPluginSettings {
-	mySetting: string;
+EventTarget.prototype.addEventListener = function(a, b, c) {
+   if (c==undefined) c=false;
+   this._addEventListener(a,b,c);
+   if (! this.eventListenerList) this.eventListenerList = {};
+   if (! this.eventListenerList[a]) this.eventListenerList[a] = [];
+   this.eventListenerList[a].push({listener:b,options:c});
+};
+
+EventTarget.prototype._getEventListeners = function(a) {
+   if (! this.eventListenerList) this.eventListenerList = {};
+   if (a==undefined)  { return this.eventListenerList; }
+   return this.eventListenerList[a];
+};
+
+function removeListeners() {
+  let listeners = document.body._getEventListeners();
+  if (!listeners || !listeners.click)
+    return;
+
+  for (let clickListener of listeners.click) 
+    document.body.removeEventListener("click", clickListener.listener);
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
+function renderError(error: any, el: HTMLElement) {
+    const errorEl = el.createDiv({ cls: "pinterest-error" });
+    errorEl.createEl("b", { text: "Couldn't render the widget:" });
+    errorEl.createEl("pre").createEl("code", { text: error.toString?.() ?? error });
+    errorEl.createEl("span").innerHTML = "You might also want to look for further Errors in the Console: Press <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>I</kbd> to open it.";
 }
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+var types = { 'pin': 'embedPin', 'board': 'embedBoard', 'profile': 'embedUser' };
 
-	async onload() {
-		await this.loadSettings();
+export default class PinterestWidget extends Plugin {
+  async onload() {
+    this.registerMarkdownCodeBlockProcessor("pinterest", (source, el, _) => {
+      try {
+        const yaml = Yaml.parse(source);
 
-		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass('my-plugin-ribbon-class');
+        if (!yaml.type || !types[yaml.type]) 
+          throw Error("You must specify a valid widget type (pin | board | profile)");
+        if (!yaml.url) throw Error("You must specify an url");
 
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status Bar Text');
+        let container = el.createEl("div");
+        container.className = "pinterest-container"
+        if (yaml.width)
+          container.style.width = yaml.width
 
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Open sample modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			}
-		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'sample-editor-command',
-			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection());
-				editor.replaceSelection('Sample Editor Command');
-			}
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-sample-modal-complex',
-			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
+        container.innerHTML = `<a 
+          data-pin-do="${types[yaml.type]}" 
+          ${yaml.height ? `data-pin-scale-height="${yaml.height}"` : ''}
+          ${yaml.pinSize ? `data-pin-width="${yaml.pinSize}"` : ''}
+          href="${yaml.url}"></a>`;
 
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
-				}
-			}
-		});
+        fetch("https://assets.pinterest.com/js/pinit_main.js").then(
+          data => data.text()
+        ).then(
+          clearData => {
+            removeListeners();
+            (0, eval)(clearData);
+            if (container.innerHTML.slice(0, 2) === '<a') {}
 
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+          }
+        ).catch(error => renderError(error, el))
 
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
-
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-	}
-
-	onunload() {
-
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
+      } catch (error) {
+        renderError(error, el);
+      }
+    });
+  }
 }
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
-
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
-
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					console.log('Secret: ' + value);
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
-}
