@@ -47,6 +47,7 @@ export default class PinterestWidget extends Plugin {
 
         let container = el.createEl("div");
         container.className = "pinterest-container"
+	if (yaml['hide-button']) container.className += " no-button"
         if (yaml.width)
           container.style.width = yaml.width
 
@@ -62,13 +63,6 @@ export default class PinterestWidget extends Plugin {
           clearData => {
             removeListeners();
             (0, eval)(clearData);
-
-
-            console.log('b');
-            setTimeout(() => {
-              if (container.innerHTML.slice(0, 2) === '<a') 
-                renderError(`Something goes wrong. Make sure your url it's valid for the ${yaml.type} widget.`, el)
-            }, 1000);
           }
         ).catch(error => renderError(error, el))
 

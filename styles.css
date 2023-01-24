@@ -1,4 +1,4 @@
-* {
+body {
   --pinterest-background: var(--background-secondary);
   --pinterest-button: var(--background-modifier-hover);
   --pinterest-text: var(--text-normal);
@@ -34,6 +34,10 @@ div.pinterest-error pre > code {
 .pinterest-container span[class$="button"] {
   background: var(--pinterest-button) !important;
   border-color: var(--pinterest-button) !important;
+}
+
+.pinterest-container.no-button span[class$="button"] {
+  display: none !important;
 }
 
 .pinterest-container span[class$="container"] {
