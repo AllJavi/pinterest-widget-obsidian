@@ -1,16 +1,16 @@
 # Pinterest Widgets
 <div align="center">
     <img src="/img/banner.png"/><br/>
-    <a href="https://github.com/AllJavi/tartarus-grub/stargazers">
-        <img src="https://img.shields.io/github/stars/AllJavi/tartarus-grub?color=a9b665&style=for-the-badge&logo=starship">
+    <a href="https://github.com/AllJavi/pinterest-widget-obsidian/stargazers">
+        <img src="https://img.shields.io/github/stars/AllJavi/pinterest-widget-obsidian?color=a9b665&style=for-the-badge&logo=starship">
     </a>
-    <a href="https://github.com/AllJavi/tartarus-grub/issues">
-        <img src="https://img.shields.io/github/issues/AllJavi/tartarus-grub?color=ea6962&style=for-the-badge&logo=codecov">
+    <a href="https://github.com/AllJavi/pinterest-widget-obsidian/issues">
+        <img src="https://img.shields.io/github/issues/AllJavi/pinterest-widget-obsidian?color=ea6962&style=for-the-badge&logo=codecov">
     </a>
-    <a href="https://github.com/AllJavi/tartarus-grub/network/members">
-        <img src="https://img.shields.io/github/forks/AllJavi/tartarus-grub?color=7daea3&style=for-the-badge&logo=jfrog-bintray">
+    <a href="https://github.com/AllJavi/pinterest-widget-obsidian/network/members">
+        <img src="https://img.shields.io/github/forks/AllJavi/pinterest-widget-obsidian?color=7daea3&style=for-the-badge&logo=jfrog-bintray">
     </a>
-    <a href="https://github.com/AllJavi/tartarus-grub/blob/main/LICENSE">
+    <a href="https://github.com/AllJavi/pinterest-widget-obsidian/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/license-MIT-orange.svg?color=d4be98&style=for-the-badge&logo=archlinux">
     </a>
 </div>
