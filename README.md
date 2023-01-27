@@ -1,96 +1,80 @@
-# Obsidian Sample Plugin
+# Pinterest Widgets
+<div align="center">
+    <img src="/img/banner.png"/><br/>
+    <a href="https://github.com/AllJavi/tartarus-grub/stargazers">
+        <img src="https://img.shields.io/github/stars/AllJavi/tartarus-grub?color=a9b665&style=for-the-badge&logo=starship">
+    </a>
+    <a href="https://github.com/AllJavi/tartarus-grub/issues">
+        <img src="https://img.shields.io/github/issues/AllJavi/tartarus-grub?color=ea6962&style=for-the-badge&logo=codecov">
+    </a>
+    <a href="https://github.com/AllJavi/tartarus-grub/network/members">
+        <img src="https://img.shields.io/github/forks/AllJavi/tartarus-grub?color=7daea3&style=for-the-badge&logo=jfrog-bintray">
+    </a>
+    <a href="https://github.com/AllJavi/tartarus-grub/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-orange.svg?color=d4be98&style=for-the-badge&logo=archlinux">
+    </a>
+</div>
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+## Pin
+### Parameters
+- `url`: Url to the Pin (example: `https://www.pinterest.com/pin/99360735500167749/`)
+- `pinSize`: Preset Pin size (example: `small, medium, large`)
+- `width`: Specific width[^1] for the Pin (example: `50%, 200px, 30vw`)
+[^1]: It's width reduction so make sure to choose a `pinSize` bigger than your size 
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
-
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
-
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Changes the default font color to red using `styles.css`.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
-
-## First time developing plugins?
-
-Quick starting guide for new plugin devs:
-
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
-
-## Releasing new releases
-
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
-
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+### Example
+~~~
+```pinterest
+type: pin
+pinSize: large
+width: 80%
+url: https://www.pinterest.com/pin/99360735500167749/
 ```
+~~~
 
-If you have multiple URLs, you can also do:
+### Preview
+https://user-images.githubusercontent.com/49349604/215115153-3f9acb72-c2dd-43bc-9643-68afb7966617.mp4
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
+## Board
+### Parameters
+- `url`: Url to the Board (example: `https://www.pinterest.com/pinterest/official-news/`)
+- `width`: Specific width for the Board (example: `50%, 200px, 30vw`)
+- `height`: Specific height for the Board (example: `500px, 700px`)
+- `hide-button`: Hide the Follow Button (example: `true, false`)
+
+### Example
+~~~
+```pinterest
+type: board
+width: 90%
+height: 500px
+hide-button: true
+url: https://www.pinterest.com/pinterest/official-news/
 ```
+~~~
 
-## API Documentation
+### Preview
+https://user-images.githubusercontent.com/49349604/215119002-7292780f-3621-4ccb-8a99-948565dabec2.mp4
 
-See https://github.com/obsidianmd/obsidian-api
+## Profile
+### Parameters
+- `url`: Url to the Profile (example: `https://www.pinterest.com/pinterest/`)
+- `width`: Specific width for the Board (example: `50%, 200px, 30vw`)
+- `height`: Specific height for the Board (example: `500px, 700px`)
+- `hide-button`: Hide the Follow Button (example: `true, false`)
+
+### Example
+~~~
+```pinterest
+type: profile
+width: 100%
+height: 300px
+url: https://www.pinterest.com/pinterest/
+```
+~~~
+
+### Preview
+https://user-images.githubusercontent.com/49349604/215119824-311d0b11-dc74-4271-8df5-2b11fa5ee13d.mp4
+
+
+
