@@ -15,14 +15,19 @@
     </a>
 </div>
 
-## Pin
-### Parameters
+
+## Description
+This is a cool little plugin for Obsidian that allows you to display your Pinterest profile, pins and boards right within your notes. It's super convenient and makes it easy to keep all your inspiration and resources organized in one place
+
+## Widgets
+### Pin
+#### Parameters
 - `url`: Url to the Pin (example: `https://www.pinterest.com/pin/99360735500167749/`)
 - `pinSize`: Preset Pin size (example: `small, medium, large`)
 - `width`: Specific width[^1] for the Pin (example: `50%, 200px, 30vw`)
-[^1]: It's width reduction so make sure to choose a `pinSize` bigger than your size 
+[^1]: It's width reduction so make sure to choose a `pinSize` bigger than the size you want 
 
-### Example
+#### Example
 ~~~
 ```pinterest
 type: pin
@@ -32,17 +37,17 @@ url: https://www.pinterest.com/pin/99360735500167749/
 ```
 ~~~
 
-### Preview
+#### Preview
 https://user-images.githubusercontent.com/49349604/215115153-3f9acb72-c2dd-43bc-9643-68afb7966617.mp4
 
-## Board
-### Parameters
+### Board
+#### Parameters
 - `url`: Url to the Board (example: `https://www.pinterest.com/pinterest/official-news/`)
 - `width`: Specific width for the Board (example: `50%, 200px, 30vw`)
 - `height`: Specific height for the Board (example: `500px, 700px`)
 - `hide-button`: Hide the Follow Button (example: `true, false`)
 
-### Example
+#### Example
 ~~~
 ```pinterest
 type: board
@@ -53,17 +58,17 @@ url: https://www.pinterest.com/pinterest/official-news/
 ```
 ~~~
 
-### Preview
+#### Preview
 https://user-images.githubusercontent.com/49349604/215119002-7292780f-3621-4ccb-8a99-948565dabec2.mp4
 
-## Profile
-### Parameters
+### Profile
+#### Parameters
 - `url`: Url to the Profile (example: `https://www.pinterest.com/pinterest/`)
 - `width`: Specific width for the Board (example: `50%, 200px, 30vw`)
 - `height`: Specific height for the Board (example: `500px, 700px`)
 - `hide-button`: Hide the Follow Button (example: `true, false`)
 
-### Example
+#### Example
 ~~~
 ```pinterest
 type: profile
@@ -73,8 +78,20 @@ url: https://www.pinterest.com/pinterest/
 ```
 ~~~
 
-### Preview
+#### Preview
 https://user-images.githubusercontent.com/49349604/215119824-311d0b11-dc74-4271-8df5-2b11fa5ee13d.mp4
 
+
+## How to Install
+### From within Obsidian
+
+From Obsidian v0.15.0+, you can activate this plugin within Obsidian by doing the following:
+
+- Open Settings > Third-party plugin
+- Make sure Safe mode is **off**
+- Click Browse community plugins
+- Search for "Pinterest Widgets"
+- Click Install
+- Once installed, close the community plugins window and activate the newly installed plugin
 
 
