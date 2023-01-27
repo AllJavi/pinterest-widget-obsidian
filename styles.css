@@ -25,6 +25,7 @@ div.pinterest-error pre > code {
 
 .pinterest-container span[class$="board"], 
 .pinterest-container span[class$="native"], 
+.pinterest-container span[class$="footer"], 
 .pinterest-container span[class$="c3"] {
   background: var(--pinterest-background) !important;
   border-color: var(--pinterest-button) !important;

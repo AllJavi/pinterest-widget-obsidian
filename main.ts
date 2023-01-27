@@ -33,39 +33,51 @@ function renderError(error: any, el: HTMLElement) {
     errorEl.createEl("span").innerHTML = "You might also want to look for further Errors in the Console: Press <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>I</kbd> to open it.";
 }
 
-var types = { 'pin': 'embedPin', 'board': 'embedBoard', 'profile': 'embedUser' };
-
 export default class PinterestWidget extends Plugin {
+  loading: Number;
+  types: { [key:string]:string } = { 
+    'pin': 'embedPin',
+    'board': 'embedBoard',
+    'profile': 'embedUser'
+  };
+
   async onload() {
-    this.registerMarkdownCodeBlockProcessor("pinterest", (source, el, _) => {
+    console.log("Pinterest Widgets: loading");
+    this.loading = 0;
+    this.registerMarkdownCodeBlockProcessor("pinterest", async (source, el, _) => {
+      console.log(`Pinterest Widgets: Detected Pinterest Widget (${this.loading})`);
       try {
         const yaml = Yaml.parse(source);
 
-        if (!yaml.type || !types[yaml.type.toLowerCase()]) 
+        if (!yaml.type || !this.types[yaml.type.toLowerCase()]) 
           throw Error("You must specify a valid widget type (pin | board | profile)");
         if (!yaml.url) throw Error("You must specify an url");
 
         let container = el.createEl("div");
         container.className = "pinterest-container"
-	if (yaml['hide-button']) container.className += " no-button"
+	      if (yaml['hide-button']) container.className += " no-button"
         if (yaml.width)
           container.style.width = yaml.width
 
         container.innerHTML = `<a 
-          data-pin-do="${types[yaml.type]}" 
+          data-pin-do="${this.types[yaml.type]}" 
           ${yaml.height ? `data-pin-scale-height="${yaml.height}"` : ''}
           ${yaml.pinSize ? `data-pin-width="${yaml.pinSize}"` : ''}
           href="${yaml.url}"></a>`;
 
-        fetch("https://assets.pinterest.com/js/pinit_main.js").then(
-          data => data.text()
-        ).then(
-          clearData => {
-            removeListeners();
-            (0, eval)(clearData);
-          }
-        ).catch(error => renderError(error, el))
-
+        if (this.loading === 0) { 
+          this.loading = 1;
+          await fetch("https://assets.pinterest.com/js/pinit_main.js").then(
+            data => data.text()
+          ).then(
+            clearData => {
+              console.log("Pinterest Widgets: Replacing Pinterest Widget")
+              removeListeners();
+              (0, eval)(clearData);
+              this.loading = 0;
+            }
+          ).catch(error => renderError(error, el))
+        }
       } catch (error) {
         renderError(error, el);
       }
