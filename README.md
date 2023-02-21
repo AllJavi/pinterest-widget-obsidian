@@ -94,4 +94,5 @@ From Obsidian v0.15.0+, you can activate this plugin within Obsidian by doing th
 - Click Install
 - Once installed, close the community plugins window and activate the newly installed plugin
 
-
+## ⚠️ Warning
+This plugin runs Pinterest code, so if for some reason Pinterest gets hacked, the hackers could pretty much do whatever they want.
